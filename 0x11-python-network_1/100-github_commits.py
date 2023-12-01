@@ -1,19 +1,16 @@
 #!/usr/bin/python3
 
-"""Displays value of the X-Request-Id variable found in 
-header of the response.
+"""
+Python script that takes in 2 arguments in order to solve a given problem
 """
 
-if __name__ == "__main__":
-    from requests import get
-    from sys import argv
+import requests
+from sys import argv
 
-    url = 'https://api.github.com/repos/{}/{}/commits'.format(argv[2], argv[1])
-    commits = get(url).json()
-    try:
-        for i in range(10):
-            print("{}: {}".format(
-                commits[i].get("sha"),
-                commits[i].get("commit").get("author").get("name")))
-    except IndexError:
-        pass
+if __name__ == '__main__':
+    url = "https://api.github.com/repos/{}/{}/commits".format(argv[2], argv[1])
+    r = requests.get(url)
+    commits = r.json()
+    for commit in commits[:10]:
+        print(commit.get('sha'), end=': ')
+        print(commit.get('commit').get('author').get('name'))
